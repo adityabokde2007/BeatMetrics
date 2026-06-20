@@ -24,3 +24,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Anaconda
+anaconda_projects/
