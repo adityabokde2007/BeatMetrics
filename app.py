@@ -108,9 +108,20 @@ def load_data():
         url = 'https://drive.google.com/uc?id=11yPjmgkPbMiIjiDXHyymOFBsNTO_jH8p'
         gdown.download(url, 'spotify_data.csv', quiet=False)
     
-    df = pd.read_csv('spotify_data.csv')
-    df = df.drop(columns=['Unnamed: 0'], errors='ignore')
+    cols = [
+        'artist_name', 'track_name', 'popularity', 'year', 'genre', 
+        'danceability', 'energy', 'speechiness', 'acousticness', 
+        'liveness', 'valence', 'duration_ms'
+    ]
+    dtypes = {
+        'popularity': 'int32', 'year': 'int16', 'duration_ms': 'int32',
+        'danceability': 'float32', 'energy': 'float32', 'speechiness': 'float32',
+        'acousticness': 'float32', 'liveness': 'float32', 'valence': 'float32'
+    }
+    
+    df = pd.read_csv('spotify_data.csv', usecols=cols, dtype=dtypes)
     df = df.dropna(subset=['artist_name', 'track_name'])
+    df['genre'] = df['genre'].astype('category')
     df['duration_min'] = round(df['duration_ms'] / 60000, 2)
     df['decade'] = (df['year'] // 10) * 10
     return df
@@ -192,7 +203,7 @@ if not filtered_df.empty:
         )
         fig1.update_traces(marker_color='#D4A017', opacity=0.9)
         fig1.update_layout(**PLOT_LAYOUT)
-        st.plotly_chart(fig1, use_container_width=True)
+        st.plotly_chart(fig1, width='stretch')
 
     with r1c2:
         year_pop = filtered_df.groupby('year')['popularity'].mean().reset_index()
@@ -204,7 +215,7 @@ if not filtered_df.empty:
         )
         fig2.update_traces(line_color='#D4A017', line_width=2, fillcolor='rgba(212, 160, 23, 0.15)')
         fig2.update_layout(**PLOT_LAYOUT)
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width='stretch')
 
     r2c1, r2c2, r2c3 = st.columns(3)
 
@@ -221,7 +232,7 @@ if not filtered_df.empty:
         fig3.update_traces(marker=dict(size=4, opacity=0.8, line=dict(width=0)))
         fig3.update_layout(**PLOT_LAYOUT)
         fig3.update_layout(coloraxis_colorbar=dict(title=dict(text="Popularity", font=dict(color='#B3B3B3')), tickfont=dict(color='#B3B3B3')))
-        st.plotly_chart(fig3, use_container_width=True)
+        st.plotly_chart(fig3, width='stretch')
 
     with r2c2:
         decade_mood = filtered_df.groupby('decade')[['valence', 'energy', 'danceability']].mean().reset_index()
@@ -236,7 +247,7 @@ if not filtered_df.empty:
         fig4.update_traces(opacity=0.9, marker_line_width=0)
         fig4.update_layout(**PLOT_LAYOUT)
         fig4.update_layout(legend=dict(title=dict(text='', font=dict(color='#B3B3B3')), font=dict(color='#B3B3B3'), bgcolor='rgba(0,0,0,0)'))
-        st.plotly_chart(fig4, use_container_width=True)
+        st.plotly_chart(fig4, width='stretch')
 
     with r2c3:
         features = ['danceability', 'energy', 'speechiness', 'acousticness', 'liveness', 'valence']
@@ -263,7 +274,7 @@ if not filtered_df.empty:
             ),
             **polar_layout
         )
-        st.plotly_chart(fig5, use_container_width=True)
+        st.plotly_chart(fig5, width='stretch')
 
     r3c1, r3c2 = st.columns(2)
 
@@ -281,7 +292,7 @@ if not filtered_df.empty:
         )
         fig6.update_traces(marker_color='#C08457', opacity=0.9)
         fig6.update_layout(**PLOT_LAYOUT)
-        st.plotly_chart(fig6, use_container_width=True)
+        st.plotly_chart(fig6, width='stretch')
 
     with r3c2:
         fig7 = px.histogram(
@@ -292,7 +303,7 @@ if not filtered_df.empty:
         )
         fig7.update_traces(marker_color='#7A9E7E', opacity=0.9, marker_line_color='#1F1F1F', marker_line_width=1)
         fig7.update_layout(**PLOT_LAYOUT)
-        st.plotly_chart(fig7, use_container_width=True)
+        st.plotly_chart(fig7, width='stretch')
 
     st.markdown("<br><h3 style='color:#F5F5F5; font-size:15px; font-weight:700; border-bottom: 1px solid #2A2A2A; padding-bottom: 10px; margin-bottom: 20px;'>Top 20 Most Popular Tracks</h3>", unsafe_allow_html=True)
     top_tracks = filtered_df.nlargest(20, 'popularity')[
@@ -300,7 +311,7 @@ if not filtered_df.empty:
     ].reset_index(drop=True)
     top_tracks.index += 1
     
-    st.dataframe(top_tracks, use_container_width=True)
+    st.dataframe(top_tracks, width='stretch')
 
 else:
     st.warning("No data found for the selected filters.")
