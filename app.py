@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import os
+import kaggle
 
 st.set_page_config(
     page_title="BeatMetrics | Spotify Dashboard",
@@ -102,6 +104,13 @@ hr { border-color: #2A2A2A; }
 
 @st.cache_data
 def load_data():
+    if not os.path.exists('spotify_data.csv'):
+        kaggle.api.authenticate()
+        kaggle.api.dataset_download_files(
+            'amitanshjoshi/spotify-1million-tracks',
+            path='.',
+            unzip=True
+        )
     df = pd.read_csv('spotify_data.csv')
     if 'Unnamed: 0' in df.columns:
         df = df.drop(columns=['Unnamed: 0'])
