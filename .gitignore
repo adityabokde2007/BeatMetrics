@@ -1,0 +1,26 @@
+# Large datasets
+spotify_data.csv
+*.csv
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+.virtual_documents/
+
+# Environments
+venv/
+.venv/
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
