@@ -16,68 +16,86 @@ st.markdown("""
 * { font-family: 'Inter', sans-serif; }
 
 .stApp {
-    background-color: #0f0f0f;
-    color: #f0f0f0;
+    background-color: #111111;
+    color: #F5F5F5;
 }
 
 div[data-testid="stSidebarContent"] {
-    background-color: #111111;
-    border-right: 1px solid #242424;
+    background-color: #181818;
+    border-right: 1px solid #2A2A2A;
 }
 
 div[data-testid="stMetric"] {
-    background-color: #161616;
-    border: 1px solid #242424;
-    border-radius: 4px;
-    padding: 15px;
+    background-color: #1F1F1F;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+div[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 div[data-testid="stMetricLabel"] {
-    color: #666666 !important;
+    color: #B3B3B3 !important;
     font-weight: 500;
     font-size: 13px;
 }
 
 div[data-testid="stMetricValue"] {
-    color: #f0f0f0 !important;
+    color: #F5F5F5 !important;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 26px;
 }
 
 .stSelectbox > div > div {
-    background-color: #161616;
-    border: 1px solid #242424;
-    border-radius: 4px;
-    color: #f0f0f0;
+    background-color: #1F1F1F;
+    border: 1px solid #2A2A2A;
+    border-radius: 10px;
+    color: #F5F5F5;
 }
 
 .stSlider > div > div > div > div {
-    background-color: #C0A060;
+    background-color: #D4A017;
 }
 
-h1, h2, h3 { color: #f0f0f0; font-weight: 700; }
+h1, h2, h3 { color: #F5F5F5; font-weight: 700; }
 
 .stDataFrame {
-    border: 1px solid #242424;
-    border-radius: 4px;
+    background-color: #1F1F1F;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
 }
 
-hr { border-color: #242424; }
+hr { border-color: #2A2A2A; }
 
 .sidebar-title {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
-    color: #C0A060;
+    color: #D4A017;
     margin-bottom: 20px;
 }
 
 .section-header {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
-    color: #555555;
+    color: #7A7A7A;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    h1 { font-size: 26px !important; }
+    .sidebar-title { font-size: 20px !important; }
+    div[data-testid="stMetricValue"] { font-size: 20px !important; }
+    div[data-testid="stMetricLabel"] { font-size: 11px !important; }
+    div[data-testid="stMetric"] { padding: 14px !important; }
+    .section-header { font-size: 10px !important; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -111,9 +129,9 @@ popularity_range = st.sidebar.slider("Popularity Range", 0, 100, (0, 100))
 
 st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
 st.sidebar.markdown('<p class="section-header">Dataset Stats</p>', unsafe_allow_html=True)
-st.sidebar.markdown(f"<span style='color:#666666; font-size:13px;'>Total Tracks:</span> <b style='color:#f0f0f0; font-size:13px;'>{len(df):,}</b>", unsafe_allow_html=True)
-st.sidebar.markdown(f"<span style='color:#666666; font-size:13px;'>Unique Artists:</span> <b style='color:#f0f0f0; font-size:13px;'>{df['artist_name'].nunique():,}</b>", unsafe_allow_html=True)
-st.sidebar.markdown(f"<span style='color:#666666; font-size:13px;'>Years:</span> <b style='color:#f0f0f0; font-size:13px;'>{int(df['year'].min())} - {int(df['year'].max())}</b>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<span style='color:#B3B3B3; font-size:13px;'>Total Tracks:</span> <b style='color:#F5F5F5; font-size:13px;'>{len(df):,}</b>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<span style='color:#B3B3B3; font-size:13px;'>Unique Artists:</span> <b style='color:#F5F5F5; font-size:13px;'>{df['artist_name'].nunique():,}</b>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<span style='color:#B3B3B3; font-size:13px;'>Years:</span> <b style='color:#F5F5F5; font-size:13px;'>{int(df['year'].min())} - {int(df['year'].max())}</b>", unsafe_allow_html=True)
 
 filtered_df = df.copy()
 if selected_genre != 'All':
@@ -127,8 +145,8 @@ filtered_df = filtered_df[
 ]
 
 st.markdown("""
-    <h1 style='font-size:32px; font-weight:700; color:#f0f0f0; margin-bottom: 4px;'>BeatMetrics</h1>
-    <p style='color:#666666; font-size:15px; font-weight:400; margin-bottom: 24px;'>Spotify Music Intelligence Dashboard</p>
+    <h1 style='font-size:34px; font-weight:700; color:#F5F5F5; margin-bottom: 4px;'>BeatMetrics</h1>
+    <p style='color:#B3B3B3; font-size:15px; font-weight:400; margin-bottom: 24px;'>Spotify Music Intelligence Dashboard</p>
 """, unsafe_allow_html=True)
 
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -141,14 +159,16 @@ col5.metric("Avg Energy", f"{filtered_df['energy'].mean():.2f}" if not filtered_
 st.markdown("<br>", unsafe_allow_html=True)
 
 PLOT_LAYOUT = dict(
-    plot_bgcolor='#161616',
-    paper_bgcolor='#161616',
-    font=dict(color='#666666', family='Inter'),
+    plot_bgcolor='#1F1F1F',
+    paper_bgcolor='#1F1F1F',
+    font=dict(color='#B3B3B3', family='Inter'),
     margin=dict(l=20, r=20, t=50, b=20),
-    title=dict(font=dict(color='#999999', size=13, family='Inter', weight='normal')),
-    xaxis=dict(gridcolor='#1e1e1e', linecolor='#242424', zerolinecolor='#242424', tickfont=dict(color='#555555'), title=dict(font=dict(color='#555555'))),
-    yaxis=dict(gridcolor='#1e1e1e', linecolor='#242424', zerolinecolor='#242424', tickfont=dict(color='#555555'), title=dict(font=dict(color='#555555'))),
+    title=dict(font=dict(color='#F5F5F5', size=14, family='Inter', weight='bold')),
+    xaxis=dict(gridcolor='#2A2A2A', linecolor='#2A2A2A', zerolinecolor='#2A2A2A', tickfont=dict(color='#B3B3B3'), title=dict(font=dict(color='#B3B3B3'))),
+    yaxis=dict(gridcolor='#2A2A2A', linecolor='#2A2A2A', zerolinecolor='#2A2A2A', tickfont=dict(color='#B3B3B3'), title=dict(font=dict(color='#B3B3B3'))),
 )
+
+# Refined palette: #D4A017, #C08457, #7A9E7E, #A68A64, #8B7355
 
 if not filtered_df.empty:
     r1c1, r1c2 = st.columns(2)
@@ -165,7 +185,7 @@ if not filtered_df.empty:
             orientation='h',
             title='Top 10 Genres'
         )
-        fig1.update_traces(marker_color='#C0A060', opacity=0.8)
+        fig1.update_traces(marker_color='#D4A017', opacity=0.9)
         fig1.update_layout(**PLOT_LAYOUT)
         st.plotly_chart(fig1, use_container_width=True)
 
@@ -177,7 +197,7 @@ if not filtered_df.empty:
             y='popularity',
             title='Popularity Trend Over Years'
         )
-        fig2.update_traces(line_color='#C0A060', line_width=2, fillcolor='rgba(192, 160, 96, 0.15)')
+        fig2.update_traces(line_color='#D4A017', line_width=2, fillcolor='rgba(212, 160, 23, 0.15)')
         fig2.update_layout(**PLOT_LAYOUT)
         st.plotly_chart(fig2, use_container_width=True)
 
@@ -189,10 +209,13 @@ if not filtered_df.empty:
             sample_df, 
             x='danceability', 
             y='energy',
-            title='Energy vs Danceability'
+            color='popularity',
+            title='Energy vs Danceability',
+            color_continuous_scale=['#1F1F1F', '#A68A64', '#D4A017']
         )
-        fig3.update_traces(marker=dict(color='#888888', size=3, opacity=0.3, line=dict(width=0)))
+        fig3.update_traces(marker=dict(size=4, opacity=0.8, line=dict(width=0)))
         fig3.update_layout(**PLOT_LAYOUT)
+        fig3.update_layout(coloraxis_colorbar=dict(title=dict(text="Popularity", font=dict(color='#B3B3B3')), tickfont=dict(color='#B3B3B3')))
         st.plotly_chart(fig3, use_container_width=True)
 
     with r2c2:
@@ -203,10 +226,11 @@ if not filtered_df.empty:
             y=['valence', 'energy', 'danceability'],
             title='Mood & Energy by Decade',
             barmode='group',
-            color_discrete_sequence=['#C0A060', '#8a7a5a', '#5a4a2a']
+            color_discrete_sequence=['#D4A017', '#C08457', '#7A9E7E']
         )
+        fig4.update_traces(opacity=0.9, marker_line_width=0)
         fig4.update_layout(**PLOT_LAYOUT)
-        fig4.update_layout(legend=dict(title=dict(text='', font=dict(color='#555555')), font=dict(color='#555555')))
+        fig4.update_layout(legend=dict(title=dict(text='', font=dict(color='#B3B3B3')), font=dict(color='#B3B3B3'), bgcolor='rgba(0,0,0,0)'))
         st.plotly_chart(fig4, use_container_width=True)
 
     with r2c3:
@@ -216,22 +240,21 @@ if not filtered_df.empty:
             r=avg_vals + [avg_vals[0]],
             theta=[f.capitalize() for f in features] + [features[0].capitalize()],
             fill='toself',
-            fillcolor='rgba(192, 160, 96, 0.15)',
-            line=dict(color='#C0A060', width=1.5),
-            marker=dict(color='#C0A060', size=4)
+            fillcolor='rgba(212, 160, 23, 0.1)',
+            line=dict(color='#D4A017', width=1.5),
+            marker=dict(color='#C08457', size=5)
         ))
         
         polar_layout = PLOT_LAYOUT.copy()
-        for k in ['xaxis', 'yaxis', 'title']:
+        for k in ['xaxis', 'yaxis']:
             if k in polar_layout:
                 del polar_layout[k]
         
         fig5.update_layout(
-            title=dict(text='Audio Features Radar', font=dict(color='#999999', size=13, family='Inter', weight='normal')),
             polar=dict(
-                bgcolor='#161616',
-                radialaxis=dict(visible=True, range=[0, 1], gridcolor='#1e1e1e', linecolor='#242424', tickfont=dict(color='#555555')),
-                angularaxis=dict(gridcolor='#1e1e1e', linecolor='#242424', tickfont=dict(color='#555555'))
+                bgcolor='#1F1F1F',
+                radialaxis=dict(visible=True, range=[0, 1], gridcolor='#2A2A2A', linecolor='#2A2A2A', tickfont=dict(color='#7A7A7A')),
+                angularaxis=dict(gridcolor='#2A2A2A', linecolor='#2A2A2A', tickfont=dict(color='#B3B3B3'))
             ),
             **polar_layout
         )
@@ -251,7 +274,7 @@ if not filtered_df.empty:
             orientation='h',
             title='Top 10 Artists'
         )
-        fig6.update_traces(marker_color='#C0A060', opacity=0.8)
+        fig6.update_traces(marker_color='#C08457', opacity=0.9)
         fig6.update_layout(**PLOT_LAYOUT)
         st.plotly_chart(fig6, use_container_width=True)
 
@@ -262,11 +285,11 @@ if not filtered_df.empty:
             nbins=40,
             title='Popularity Distribution'
         )
-        fig7.update_traces(marker_color='#C0A060', opacity=0.8, marker_line_color='#161616', marker_line_width=1)
+        fig7.update_traces(marker_color='#7A9E7E', opacity=0.9, marker_line_color='#1F1F1F', marker_line_width=1)
         fig7.update_layout(**PLOT_LAYOUT)
         st.plotly_chart(fig7, use_container_width=True)
 
-    st.markdown("<br><h3 style='color:#f0f0f0; font-size:14px; font-weight:600; border-bottom: 1px solid #242424; padding-bottom: 10px; margin-bottom: 20px;'>Top 20 Most Popular Tracks</h3>", unsafe_allow_html=True)
+    st.markdown("<br><h3 style='color:#F5F5F5; font-size:15px; font-weight:700; border-bottom: 1px solid #2A2A2A; padding-bottom: 10px; margin-bottom: 20px;'>Top 20 Most Popular Tracks</h3>", unsafe_allow_html=True)
     top_tracks = filtered_df.nlargest(20, 'popularity')[
         ['track_name', 'artist_name', 'genre', 'year', 'popularity', 'danceability', 'energy', 'valence']
     ].reset_index(drop=True)
@@ -277,9 +300,9 @@ if not filtered_df.empty:
 else:
     st.warning("No data found for the selected filters.")
 
-st.markdown("<hr style='margin-top: 50px;'>", unsafe_allow_html=True)
+st.markdown("<hr style='border-color: #2A2A2A; margin-top: 50px;'>", unsafe_allow_html=True)
 st.markdown("""
-<div style='text-align:center; color:#555555; font-size:12px; margin-bottom: 20px;'>
-    Built by Aditya Bokde | BeatMetrics 2024 | Data Science Portfolio
+<div style='text-align:center; color:#7A7A7A; font-size:12px; margin-bottom: 20px;'>
+    Built by Aditya Bokde | BeatMetrics | Data Science Portfolio
 </div>
 """, unsafe_allow_html=True)
