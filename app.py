@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import os
-import gdown
 
 st.set_page_config(
     page_title="BeatMetrics | Spotify Dashboard",
@@ -104,26 +102,7 @@ hr { border-color: #2A2A2A; }
 
 @st.cache_data
 def load_data():
-    if not os.path.exists('spotify_data.csv'):
-        url = 'https://drive.google.com/uc?id=11yPjmgkPbMiIjiDXHyymOFBsNTO_jH8p'
-        gdown.download(url, 'spotify_data.csv', quiet=False)
-    
-    cols = [
-        'artist_name', 'track_name', 'popularity', 'year', 'genre', 
-        'danceability', 'energy', 'speechiness', 'acousticness', 
-        'liveness', 'valence', 'duration_ms'
-    ]
-    dtypes = {
-        'popularity': 'int32', 'year': 'int16', 'duration_ms': 'int32',
-        'danceability': 'float32', 'energy': 'float32', 'speechiness': 'float32',
-        'acousticness': 'float32', 'liveness': 'float32', 'valence': 'float32'
-    }
-    
-    df = pd.read_csv('spotify_data.csv', usecols=cols, dtype=dtypes)
-    df = df.dropna(subset=['artist_name', 'track_name'])
-    df['genre'] = df['genre'].astype('category')
-    df['duration_min'] = round(df['duration_ms'] / 60000, 2)
-    df['decade'] = (df['year'] // 10) * 10
+    df = pd.read_parquet('spotify_data.parquet')
     return df
 
 try:
