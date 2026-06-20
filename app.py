@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import os
-import kaggle
+import gdown
 
 st.set_page_config(
     page_title="BeatMetrics | Spotify Dashboard",
@@ -105,15 +105,11 @@ hr { border-color: #2A2A2A; }
 @st.cache_data
 def load_data():
     if not os.path.exists('spotify_data.csv'):
-        kaggle.api.authenticate()
-        kaggle.api.dataset_download_files(
-            'amitanshjoshi/spotify-1million-tracks',
-            path='.',
-            unzip=True
-        )
+        url = 'https://drive.google.com/uc?id=11yPjmgkPbMiIjiDXHyymOFBsNTO_jH8p'
+        gdown.download(url, 'spotify_data.csv', quiet=False)
+    
     df = pd.read_csv('spotify_data.csv')
-    if 'Unnamed: 0' in df.columns:
-        df = df.drop(columns=['Unnamed: 0'])
+    df = df.drop(columns=['Unnamed: 0'], errors='ignore')
     df = df.dropna(subset=['artist_name', 'track_name'])
     df['duration_min'] = round(df['duration_ms'] / 60000, 2)
     df['decade'] = (df['year'] // 10) * 10
