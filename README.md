@@ -125,5 +125,5 @@ Contributions, issues, and feature requests are highly welcome!
 ---
 
 <p align="center">
-  <i>Architected & Developed with ❤️ by Aditya Bokde for the Data Science Portfolio.</i>
+  <i>Architected & Developed with ❤️ by Aditya Bokde.</i>
 </p>
